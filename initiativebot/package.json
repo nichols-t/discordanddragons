@@ -1,0 +1,16 @@
+{
+  "name": "initiativebot",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "description": "",
+  "dependencies": {
+    "discord.js": "^12.0.2",
+    "enmap": "^5.2.4"
+  }
+}
