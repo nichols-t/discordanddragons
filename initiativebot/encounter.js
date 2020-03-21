@@ -6,8 +6,10 @@
  * for testing purposes.
  */
 const encounter = {
-    pcs: [{ name: 'Bjorn', initiative: 22 }],
-    npcs: [{ name: 'Sumail', initiative: 28 }],
+    pcs: [{ name: 'Bjorn', initiative: 22, type: 'player' },
+{name: 'Tiberius', initiative: 4, type: 'player', visibility: { name: true, initiative: true, type: false}}],
+    npcs: [{ name: 'Sumail', initiative: 28, type: 'enemy' },
+{name: 'Hidden dude', initiative: 400, type: 'enemy', visibility: {hidden: true}}],
 };
 
 module.exports = {
