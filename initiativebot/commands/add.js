@@ -70,7 +70,8 @@ exports.run = (client, message, args) => {
 
     if (args.length < 3) {
         message.channel
-        .send('Command format: add <type> <name> <initiative> <visibility?>').catch(console.error);
+        .send('\`Command format: add <type> <name> <initiative> <visibility?>\`')
+        .catch(console.error);
         return;
     }
     // Argument format. [0-2] are assumed as every entity needs them.
@@ -85,10 +86,9 @@ exports.run = (client, message, args) => {
     if (newEntity.type !== 'player') encounter.npcs.push(newEntity);
     if (newEntity.type === 'player') encounter.pcs.push(newEntity);
 
-    // Format this in whatever way we need to and send it back (right now we don't format)
-
-    message.channel.send(`Added new ${newEntity.type === 'player'
-    ? 'PC' : 'NPC'} ${newEntity.name}`
+    // Format a nice response for successful addition.
+    message.channel.send(`\`Added new ${newEntity.type === 'player'
+    ? 'PC' : 'NPC'} "${newEntity.name}"`
     + ` with Initiative: ${newEntity.initiative} and Visibility: `
-    + `${utils.visibilityToString(newEntity.visibility)}`).catch(console.error);
+    + `${utils.visibilityToString(newEntity.visibility)}\``).catch(console.error);
 }

@@ -42,20 +42,23 @@ Example:
 ```
 (Anywhere)
 bjorn: !initiative
-discordanddragonsbot: COMBATANTS:
-Tiberius, Initiative 4, Side: Unknown
-Bjorn, Initiative 22, Side: Player
-Skeleton, Initiative 50, Side: Enemy
+discordanddragonsbot:
+COMBATANTS:
+Tiberius | Initiative 4  | Side: Unknown
+Bjorn    | Initiative 22 | Side: Player
+Skeleton | Initiative 50 | Side: Enemy
 
 (In DM)
 bjorn: !initiative master
-discordanddragonsbot: COMBATANTS:
-Tiberius, Initiative 4, Side: Unkown, Visibility: NAME,INITIATIVE,
-Skeleton, Initiative 10, Side: Enemy, Visibility: HIDDEN
-Skeleton, Initiative 14, Side: Enemy, Visibility: HIDDEN
-Skeleton, Initiative 18, Side: Enemy, Visibility: HIDDEN
-Bjorn, Inititative 22, Side: Player, Visibility: ALL
-Skeleton, Initiative 50, Side: Enemy, Visibility: ALL
+discordanddragonsbot: 
+COMBATANTS:
+Tiberius | Initiative 4  | Side: Unkown | Visibility: NAME,INITIATIVE
+Skeleton | Initiative 10 | Side: Enemy  | Visibility: HIDDEN
+Skeleton | Initiative 14 | Side: Enemy  | Visibility: HIDDEN
+Skeleton | Initiative 18 | Side: Enemy  | Visibility: HIDDEN
+Bjorn    | Initiative 22 | Side: Player | Visibility: ALL
+Skeleton | Initiative 50 | Side: Enemy  | Visibility: ALL
+
 ```
 
 ### `!add`
@@ -77,10 +80,10 @@ Example:
 
 ```
 bjorn: !add ally Tiberius 14
-discordanddragonsbot: Added new NPC Tiberius with Initiative: 14 and Visibility: ALL
+discordanddragonsbot: Added new NPC "Tiberius" with Initiative: 14 and Visibility: ALL
 
 bjorn: !add enemy Beholder 24 ni
-discordanddragonsbot: Added new NPC Behold with Initiative: 24 and Visibility: NAME, INITIATIVE,
+discordanddragonsbot: Added new NPC "Beholder" with Initiative: 24 and Visibility: NAME, INITIATIVE
 ```
 
 ### `!remove`
@@ -94,8 +97,8 @@ Example:
 
 ```
 bjorn: !remove ally Tiberius
-discordanddragonsbot: Removed Tiberius from npcs
+discordanddragonsbot: Removed "Tiberius" from NPCs
 
 bjorn: !remove player aurgrum
-discordanddragonsbot: Did not find entity with name aurgrum in pcs
+discordanddragonsbot: Did not find entity with name "augrum" in PCs
 ```

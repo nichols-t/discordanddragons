@@ -10,8 +10,10 @@ const empty = (obj) => !obj || (Object.keys(obj).length === 0);
  * Returns a string representing the given entity.
  * @param {*} entity entity object.
  */
-const entityToString = (entity) => {
-    return `${entity.name}, Initiative: ${entity.initiative}, Side: ${entity.type}`;
+const entityToString = (entity, padName) => {
+    return `${entity.name.padEnd(padName, ' ')}| `
+    + `Initiative: ${entity.initiative.toString().padEnd(3, ' ')}| `
+    + `Side: ${capitalize(entity.type).padEnd(8, ' ')}`;
 }
 
 /**
@@ -24,10 +26,10 @@ const visibilityToString = (visibility) => {
     } else {
         let str = '';
         if (visibility.hidden) return 'NONE';
-        if (visibility.initiative) str += 'INITIATIVE,';
-        if (visibility.name) str += 'NAME,';
-        if (visibility.type) str += 'TYPE,'
-        return (str ? str : 'UNKNOWN');
+        if (visibility.initiative) str += 'INITIATIVE, ';
+        if (visibility.name) str += 'NAME, ';
+        if (visibility.type) str += 'TYPE, '
+        return (str ? str.trim().replace(/,$/g, '') : 'UNKNOWN');
     }
 }
 

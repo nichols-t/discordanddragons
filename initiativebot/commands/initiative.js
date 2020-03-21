@@ -21,15 +21,22 @@ exports.run = (client, message, args) => {
 
     // Merge and sort the pcs and npcs arrays
     const initList = encounter.pcs.concat(encounter.npcs);
-    initList.sort((a, b) => a.initiative - b.initiative);
+    initList.sort((a, b) => b.initiative - a.initiative);
 
     // If the DM wants the unfiltered list, don't both sorting through all the visibility
     // options
     if (master) {
-        const formattedList = initList.map((e) => `${utils.entityToString(e)},`
+        // Get the maximum name length to pad the names by
+        const maxNameLength =(initList.length === 0 ? 0 : initList.map((e) => e.name)
+        .sort((a, b) => b.length - a.length)[0].length);
+
+        // Format, including the visibility column
+        const formattedList = initList
+        .map((e) => `${utils.entityToString(e, maxNameLength + 1)}| `
         + `Visibility: ${utils.visibilityToString(e.visibility)}`);
-        formattedList.unshift('COMBATANTS');
-        message.channel.send(formattedList).catch(console.error);
+
+        formattedList.unshift('\nCOMBATANTS');
+        message.channel.send(`\`\`\`${formattedList.join('\n')}\`\`\``).catch(console.error);
         return;
     }
 
@@ -50,9 +57,17 @@ exports.run = (client, message, args) => {
     : { ...e, type: utils.capitalize(e.type)});
 
     // Merge the partially and fully visible lists.
-    const allFiltered = filteredList.concat(allVisibility)
-    .sort((a, b) => a.initiatve = b.initiative);
-    const formattedList = allFiltered.map((e) => utils.entityToString(e));
-    formattedList.unshift("COMBATANTS:");
-    message.channel.send(formattedList).catch(console.error);
+    const allFiltered = filteredList.concat(allVisibility);
+    console.dir(filteredList);
+    allFiltered.sort((a, b) => b.initiative - a.initiative);
+
+    // Get the max name length for padding purposes
+    const maxNameLength =(allFiltered.length === 0 ? 0 : allFiltered.map((e) => e.name)
+        .sort((a, b) => b.length - a.length)[0].length);
+
+    const formattedList = allFiltered
+    .map((e) => utils.entityToString(e, maxNameLength + 1));
+
+    formattedList.unshift(`\nCOMBATANTS`);
+    message.channel.send(`\`\`\`${formattedList.join('\n')}\`\`\``).catch(console.error);
 }
