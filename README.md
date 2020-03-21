@@ -1,49 +1,69 @@
 # discordanddragons
-Discord bot(s) for facilitating remote D&amp;D sessions.
+Discord bot(s) for facilitating remote D&amp;D sessions. For now, contains one bot to track initiative order in combat.
 
 ## Running
 
 First, you'll need to [create your own Discord bot](https://discordapp.com/developers/applications/). First create an application,
 then add a bot via the menu on the left. Copy the token into a file named `config.json` inside the `initiativebot` directory.
-You'll also need to set a prefix for your commands in this directory. Here's what your `config.json` should look like:
+
+Your config.json will need:
+- `token` containing the bot's auth token from discord
+- `prefix` a string for your chosen command prefix
+- `dmWhitelist` array of discord user ids (these are numbers; not the same as `<username><ident>`)
+
+Here's what your `config.json` should look like when you're finished:
 
 ```JSON
 {
     "token": "<your-token-here>",
-    "prefix" : "!"
+    "prefix" : "!",
+    "dmWhitelist" : ["<dm-user-id>"]
 }
 ```
 
-Then be sure to run `npm install` in the `initiativebot` directory to install your modules. Run `node index.js` to run the bot.
+Then be sure to run `npm install` in the `initiativebot` directory to install your modules. Run `node index.js` in the `initativebot` directory to run the bot.
 
 ## Functionality
 
-Right now, pretty limited.
+- [`!initiative`](#initiative)
+- [`!add`](#add)
+- [`!remove`](#remove)
 
 ### `!initiative`
 
-Displays a formatted list of combatants in the current encounter. Right now, this will always filter to the player list;
-it will not show hidden properties of entities that the DM does not want to reveal to the party.
+```
+!initiative <master?>
+```
+
+Displays a formatted list of combatants in the current encounter. The DM can DM the bot with the `'master'` flag to show all entities with their visibility options.
 
 Example: 
 
 ```
+(Anywhere)
 bjorn: !initiative
 discordanddragonsbot: COMBATANTS:
 Tiberius, Initiative 4, Side: Unknown
-Bjorn, Initiative 22, Side: player
-Skeleton, Initiative 50, Side: enemy
+Bjorn, Initiative 22, Side: Player
+Skeleton, Initiative 50, Side: Enemy
+
+(In DM)
+bjorn: !initiative master
+discordanddragonsbot: COMBATANTS:
+Tiberius, Initiative 4, Side: Unkown, Visibility: NAME,INITIATIVE,
+Skeleton, Initiative 10, Side: Enemy, Visibility: HIDDEN
+Skeleton, Initiative 14, Side: Enemy, Visibility: HIDDEN
+Skeleton, Initiative 18, Side: Enemy, Visibility: HIDDEN
+Bjorn, Inititative 22, Side: Player, Visibility: ALL
+Skeleton, Initiative 50, Side: Enemy, Visibility: ALL
 ```
 
 ### `!add`
 
 ```
-!add <type> <name> <initiative> <visibility-string>
+!add <type> <name> <initiative> <visibility-string?>
 ```
-
-Adds an entity to the list of combatants in the encounter. Must be given a 
-type (one of player/ally/enemy), a name, and an initiative score. Can also be
-given several visibility options; if none are specified, all fields are visible to players.
+This command can only be run by the DM in a DM. Adds an entity to the list of combatants in the encounter. Must be given a type (one of player/ally/enemy), a name, and an initiative score. Can also be given several visibility options; if none are specified, all fields are visible to players.
 
 Visibility Options:
 - `i` to show initiative score
@@ -68,7 +88,7 @@ discordanddragonsbot: Added new NPC Behold with Initiative: 24 and Visibility: N
 ```
 !remove <type> <name>
 ```
-Removes the entity with the given name from the given type of list. `type` can be one of player, 'ally', or 'enemy'. If any type that is not 'player' is specified, it will search for the name in the NPC list.
+This command can only be run by the DM in a DM. Removes the entity with the given name from the given type of list. `type` can be one of player, 'ally', or 'enemy'. If any type that is not 'player' is specified, it will search for the name in the NPC list.
 
 Example: 
 

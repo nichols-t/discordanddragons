@@ -6,9 +6,9 @@
  * for testing purposes.
  */
 const encounter = {
-    pcs: [{ name: 'Bjorn', initiative: 22, type: 'player' },
+    pcs: [{ name: 'Bjorn', initiative: 22, type: 'player', visibility: { all:true }},
 {name: 'Tiberius', initiative: 4, type: 'player', visibility: { name: true, initiative: true, type: false}}],
-    npcs: [{ name: 'Sumail', initiative: 28, type: 'enemy' },
+    npcs: [{ name: 'Sumail', initiative: 28, type: 'enemy', visibility: { all: true }},
 {name: 'Hidden dude', initiative: 400, type: 'enemy', visibility: {hidden: true}}],
 };
 

@@ -20,6 +20,12 @@ const parseList = (list) => {
  * Removes an entity of the given type (pc or npc) from the encounter list.
  */
 exports.run = (client, message, args) => {
+
+    // Don't acknowledge this command if it wasn't send in and by a DM.
+    if (message.channel.type !== 'dm' || !config.dmWhitelist.includes(message.author.id)) {
+        return;
+    }
+
     if (args.length < 2) {
         message.channel.send('Command format: remove <type> <name>').catch(console.error);
         return;

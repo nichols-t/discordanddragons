@@ -1,5 +1,6 @@
 const encounter = require('../encounter').encounter;
 const utils = require('../utils');
+const config = require('../config.json');
 
 // This file contains the handler for the !add command, which will add an entity to
 // the current encounter.
@@ -10,7 +11,7 @@ const utils = require('../utils');
  * `i` shows the entity's initiative, `n` shows the entity's name.
  */
 const parseVisibility = (input) => {
-    if (!input) return {};
+    if (!input) return { all: true };
 
     const lCInput = input.toLowerCase();
 
@@ -58,26 +59,15 @@ const parseInitiative = (input) => {
 }
 
 /**
- * Transforms a visibility type into a string.
- * @param {*} visibility the visibility of an entity.
- */
-const visibilityToString = (visibility) => {
-    if (utils.empty(visibility)) {
-        return "ALL";
-    } else {
-        let str = '';
-        if (visibility.hidden) return 'NONE';
-        if (visibility.initiative) str += 'INITIATIVE,';
-        if (visibility.name) str += 'NAME,';
-        if (visibility.type) str += 'TYPE,'
-        return 'UNKNOWN';
-    }
-}
-
-/**
  * Adds a new entity to the encounter with the given parameters.
  */
 exports.run = (client, message, args) => {
+
+    // Don't acknowledge this command if it wasn't send in and by a DM.
+    if (message.channel.type !== 'dm' || !config.dmWhitelist.includes(message.author.id)) {
+        return;
+    }
+
     if (args.length < 3) {
         message.channel
         .send('Command format: add <type> <name> <initiative> <visibility?>').catch(console.error);
@@ -100,5 +90,5 @@ exports.run = (client, message, args) => {
     message.channel.send(`Added new ${newEntity.type === 'player'
     ? 'PC' : 'NPC'} ${newEntity.name}`
     + ` with Initiative: ${newEntity.initiative} and Visibility: `
-    + `${visibilityToString(newEntity.visibility)}`).catch(console.error);
+    + `${utils.visibilityToString(newEntity.visibility)}`).catch(console.error);
 }
